@@ -19,102 +19,176 @@
 <body>
 <main class="shell">
 <header class="topbar">
- <div class="brand"><img class="brand-logo" src="fitness-empire-logo.jpg" alt="Fitness Empire logo"><div><div class="brand-name">FITNESS EMPIRE</div><div class="brand-sub">Member management</div></div></div>
- <div class="actions"><span class="muted" id="today"></span><button class="btn primary" id="addTop">＋ Add member</button></div>
+<div class="brand"><img class="brand-logo" src="fitness-empire-logo.jpg" alt="Fitness Empire logo"><div><div class="brand-name">FITNESS EMPIRE</div><div class="brand-sub">Member management</div></div></div>
+<div class="actions"><span class="muted" id="today"></span><button class="btn quiet" id="adminLoginBtn">Admin login</button><button class="btn primary" id="addTop">＋ Add member</button></div>
 </header>
 <section class="hero"><div><div class="eyebrow">Gym operations</div><h1>Members overview</h1><p>Manage memberships, payments and WhatsApp follow-ups.</p></div>
- <div class="actions"><button class="btn quiet" id="importBtn">↑ Import backup</button><button class="btn quiet" id="exportBtn">↓ Export backup</button><input id="importFile" type="file" accept=".csv,text/csv" hidden></div>
+<div class="actions"><button class="btn quiet" id="importBtn">↑ Import backup</button><button class="btn quiet" id="exportBtn">↓ Export backup</button><input id="importFile" type="file" accept=".csv,text/csv" hidden></div>
 </section>
 <section class="stats">
- <div class="stat"><div class="stat-label">Total members</div><div class="stat-value" id="totalCount">0</div></div>
- <div class="stat"><div class="stat-label">Active memberships</div><div class="stat-value" id="activeCount">0</div></div>
- <div class="stat"><div class="stat-label">Expiring in 7 days</div><div class="stat-value" id="expiringCount">0</div></div>
- <div class="stat"><div class="stat-label">Cardio access</div><div class="stat-value" id="cardioCount">0</div></div>
+<div class="stat"><div class="stat-label">Total members</div><div class="stat-value" id="totalCount">0</div></div>
+<div class="stat"><div class="stat-label">Active memberships</div><div class="stat-value" id="activeCount">0</div></div>
+<div class="stat"><div class="stat-label">Expiring in 7 days</div><div class="stat-value" id="expiringCount">0</div></div>
+<div class="stat"><div class="stat-label">Cardio access</div><div class="stat-value" id="cardioCount">0</div></div>
 </section>
 <section class="guide"><h3>iPhone + computer backup</h3><p>Member records are stored on each device separately. Export a CSV backup on one device and import it on the other to transfer records. Import replaces that device’s current list, so export first if it contains newer records.</p></section>
 <section class="panel">
- <div class="panel-head"><div><div class="panel-title">Member database</div><div class="panel-sub">Member details and quick actions</div></div><div class="actions"><button class="btn quiet" id="templatesBtn">WhatsApp templates</button><button class="btn primary" id="addPanel">＋ New member</button></div></div>
- <div class="toolbar"><div class="search"><input id="search" type="search" placeholder="Search name, phone or member ID…"></div><select id="statusFilter"><option value="all">All memberships</option><option value="active">Active</option><option value="expiring">Expiring soon</option><option value="expired">Expired</option></select><select id="cardioFilter"><option value="all">All cardio plans</option><option value="yes">With cardio</option><option value="no">Without cardio</option></select></div>
- <div class="table-wrap"><table><thead><tr><th>Member</th><th>Plan</th><th>Start date</th><th>Expiry date</th><th>Cardio</th><th>Status</th><th>WhatsApp actions</th></tr></thead><tbody id="memberRows"></tbody></table><div class="empty" id="emptyState">No members added yet. Add your first member.</div></div>
- <div class="foot" id="recordCount">0 records</div>
+<div class="panel-head"><div><div class="panel-title">Member database</div><div class="panel-sub">Member details and quick actions</div></div><div class="actions"><button class="btn quiet" id="templatesBtn">WhatsApp templates</button><button class="btn primary" id="addPanel">＋ New member</button></div></div>
+<div class="toolbar"><div class="search"><input id="search" type="search" placeholder="Search name, phone or member ID…"></div><select id="statusFilter"><option value="all">All memberships</option><option value="active">Active</option><option value="expiring">Expiring soon</option><option value="expired">Expired</option></select><select id="cardioFilter"><option value="all">All cardio plans</option><option value="yes">With cardio</option><option value="no">Without cardio</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Member</th><th>Plan</th><th>Start date</th><th>Expiry date</th><th>Cardio</th><th>Status</th><th>WhatsApp actions</th></tr></thead><tbody id="memberRows"></tbody></table><div class="empty" id="emptyState">No members added yet. Add your first member.</div></div>
+<div class="foot" id="recordCount">0 records</div>
 </section>
 </main>
 <div class="overlay" id="memberModal"><div class="modal">
- <div class="modal-head"><h2 id="modalTitle">Add member</h2><button class="btn quiet" id="closeModal">×</button></div>
- <form id="memberForm"><div class="form-grid">
-  <div class="field"><label for="name">Full name *</label><input id="name" required maxlength="80"></div>
-  <div class="field"><label for="phone">WhatsApp number *</label><input id="phone" required inputmode="tel" placeholder="10-digit or country code"></div>
-  <div class="field"><label for="memberId">Member ID</label><input id="memberId" placeholder="Auto-generated if blank"></div>
-  <div class="field"><label for="plan">Membership plan *</label><select id="plan"><option>1 Month</option><option>3 Months</option><option>6 Months</option><option>12 Months</option><option>Custom</option></select></div>
-  <div class="field"><label for="startDate">Plan start date *</label><input id="startDate" type="date" required></div>
-  <div class="field"><label for="endDate">Plan end date *</label><input id="endDate" type="date" required></div>
-  <div class="field"><label for="fee">Amount paid (₹)</label><input id="fee" type="number" min="0" step="1"></div>
-  <div class="field"><label for="payment">Payment status</label><select id="payment"><option>Paid</option><option>Part-paid</option><option>Pending</option></select></div>
-  <div class="field"><label>Cardio access</label><div class="check"><input id="cardio" type="checkbox"><span>Cardio included</span></div></div>
-  <div class="field"><label for="gender">Gender (optional)</label><select id="gender"><option value="">Not specified</option><option>Male</option><option>Female</option><option>Other</option></select></div>
-  <div class="field full"><label for="notes">Notes (optional)</label><textarea id="notes"></textarea></div>
- </div><div class="modal-foot"><button type="button" class="btn quiet" id="cancelModal">Cancel</button><button class="btn primary" type="submit">Save member</button></div></form>
+<div class="modal-head"><h2 id="modalTitle">Add member</h2><button class="btn quiet" id="closeModal">×</button></div>
+<form id="memberForm"><div class="form-grid">
+<div class="field"><label for="name">Full name *</label><input id="name" required maxlength="80"></div>
+<div class="field"><label for="phone">WhatsApp number *</label><input id="phone" required inputmode="tel" placeholder="10-digit or country code"></div>
+<div class="field"><label for="memberId">Member ID</label><input id="memberId" placeholder="Auto-generated if blank"></div>
+<div class="field"><label for="plan">Membership plan *</label><select id="plan"><option>1 Month</option><option>3 Months</option><option>6 Months</option><option>12 Months</option><option>Custom</option></select></div>
+<div class="field"><label for="startDate">Plan start date *</label><input id="startDate" type="date" required></div>
+<div class="field"><label for="endDate">Plan end date *</label><input id="endDate" type="date" required></div>
+<div class="field"><label for="fee">Amount paid (₹)</label><input id="fee" type="number" min="0" step="1"></div>
+<div class="field"><label for="paymentMethod">Payment method *</label><select id="paymentMethod" required><option>Cash</option><option>UPI</option><option>Card</option><option>Bank Transfer</option><option>Other</option></select></div>
+<div class="field"><label for="payment">Payment status</label><select id="payment"><option>Paid</option><option>Part-paid</option><option>Pending</option></select></div>
+<div class="field"><label>Cardio access</label><div class="check"><input id="cardio" type="checkbox"><span>Cardio included</span></div></div>
+<div class="field"><label for="gender">Gender (optional)</label><select id="gender"><option value="">Not specified</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+<div class="field full"><label for="notes">Notes (optional)</label><textarea id="notes"></textarea></div>
+</div><div class="modal-foot"><button type="button" class="btn quiet" id="cancelModal">Cancel</button><button class="btn primary" id="saveMemberBtn" type="submit">Save member</button></div></form>
+</div></div>
+<div class="overlay" id="loginModal"><div class="modal" style="max-width:430px">
+<div class="modal-head"><h2>Fitness Empire admin login</h2><button class="btn quiet" id="closeLogin">×</button></div>
+<form id="loginForm"><div class="form-grid" style="grid-template-columns:1fr">
+<div class="field"><label for="adminEmail">Supabase account email</label><input id="adminEmail" type="email" autocomplete="username" required></div>
+<div class="field"><label for="adminPassword">Password</label><input id="adminPassword" type="password" autocomplete="current-password" required></div>
+<p class="muted">Your password is sent directly to Supabase Auth and is not saved in this app.</p>
+</div><div class="modal-foot"><button type="button" class="btn quiet" id="cancelLogin">Cancel</button><button class="btn primary" type="submit">Log in</button></div></form>
 </div></div>
 <div class="overlay" id="templatesModal"><div class="modal">
- <div class="modal-head"><h2>WhatsApp message templates</h2><button class="btn quiet" id="closeTemplates">×</button></div>
- <div class="template-list">
-  <div><label for="welcomeTemplate">New member welcome</label><textarea id="welcomeTemplate"></textarea></div>
-  <div><label for="expiringTemplate">Membership expiring soon</label><textarea id="expiringTemplate"></textarea></div>
-  <div><label for="expiredTemplate">Membership expired</label><textarea id="expiredTemplate"></textarea></div>
-  <p class="muted">Available placeholders: {name}, {plan}, {startDate}, {endDate}. Templates are saved on this device.</p>
- </div><div class="section-actions"><button class="btn quiet" id="resetTemplates">Reset defaults</button><button class="btn primary" id="saveTemplates">Save templates</button></div>
+<div class="modal-head"><h2>WhatsApp message templates</h2><button class="btn quiet" id="closeTemplates">×</button></div>
+<div class="template-list">
+<div><label for="welcomeTemplate">New member welcome</label><textarea id="welcomeTemplate"></textarea></div>
+<div><label for="expiringTemplate">Membership expiring soon</label><textarea id="expiringTemplate"></textarea></div>
+<div><label for="expiredTemplate">Membership expired</label><textarea id="expiredTemplate"></textarea></div>
+<p class="muted">Available placeholders: {name}, {plan}, {startDate}, {endDate}, {invoiceLink}. Invoice link is added to new-plan welcome messages.</p>
+</div><div class="section-actions"><button class="btn quiet" id="resetTemplates">Reset defaults</button><button class="btn primary" id="saveTemplates">Save templates</button></div>
 </div></div>
 <div class="toast" id="toast"></div>
 <script>
 (()=>{
 const STORAGE_KEY='fitnessEmpireMembers_v1', TEMPLATE_KEY='fitnessEmpireWhatsAppTemplates_v1';
+const SUPABASE_URL='https://hoddoswadbpwveiolpfc.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_EgTEmMLEL3ZtG0EC7UGJgQ_jpvIXh3b';
+const INVOICE_API=SUPABASE_URL+'/functions/v1/invoice-api';
+const ADMIN_ID='0920a088-c837-4609-9588-97a6a4ed5761';
 const defaults={
- welcome:'Hello {name}, welcome to Fitness Empire! Your {plan} membership starts on {startDate} and ends on {endDate}. We are excited to be part of your fitness journey. Thank you!',
- expiring:'Hello {name}, greetings from Fitness Empire! Your {plan} membership will expire on {endDate}. Please renew on time to continue your fitness journey. Thank you!',
- expired:'Hello {name}, your {plan} membership at Fitness Empire expired on {endDate}. We would love to welcome you back. Please contact us to renew. Thank you!'
+welcome:'Hello {name}, welcome to Fitness Empire! Your {plan} membership starts on {startDate} and ends on {endDate}. Your invoice: {invoiceLink} We are excited to be part of your fitness journey. Thank you!',
+expiring:'Hello {name}, greetings from Fitness Empire! Your {plan} membership will expire on {endDate}. Please renew on time to continue your fitness journey. Thank you!',
+expired:'Hello {name}, your {plan} membership at Fitness Empire expired on {endDate}. We would love to welcome you back. Please contact us to renew. Thank you!'
 };
-let members=[],editingId=null,templates={...defaults};const $=id=>document.getElementById(id);
+let members=[],editingId=null,templates={...defaults},authSession=null,creatingNewPlan=false;
+const $=id=>document.getElementById(id);
 const todayISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
 const date=s=>new Date(s+'T00:00:00'),diff=s=>Math.round((date(s)-date(todayISO()))/86400000);
 const fmt=s=>s?date(s).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
 const uid=()=> 'FE'+Math.random().toString(36).slice(2,7).toUpperCase();
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2500)}
+function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),3000)}
 function load(){try{members=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(!Array.isArray(members))members=[]}catch{members=[]}try{templates={...defaults,...JSON.parse(localStorage.getItem(TEMPLATE_KEY)||'{}')}}catch{templates={...defaults}}}
 function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(members))}
 function status(m){const n=diff(m.endDate);return n<0?'expired':n<=7?'expiring':'active'}
 function addMonthsClamped(iso,n){const d=date(iso),day=d.getDate(),target=new Date(d.getFullYear(),d.getMonth()+n,1);const last=new Date(target.getFullYear(),target.getMonth()+1,0).getDate();target.setDate(Math.min(day,last));return new Date(target.getTime()-target.getTimezoneOffset()*60000).toISOString().slice(0,10)}
 function updateExpiry(){const p=$('plan').value,s=$('startDate').value;if(!s||p==='Custom')return;const n={'1 Month':1,'3 Months':3,'6 Months':6,'12 Months':12}[p];if(n)$('endDate').value=addMonthsClamped(s,n)}
 function render(){
- $('totalCount').textContent=members.length;$('activeCount').textContent=members.filter(m=>status(m)==='active').length;$('expiringCount').textContent=members.filter(m=>status(m)==='expiring').length;$('cardioCount').textContent=members.filter(m=>m.cardio).length;
- const q=$('search').value.trim().toLowerCase(),sf=$('statusFilter').value,cf=$('cardioFilter').value;
- const list=members.filter(m=>[m.name,m.phone,m.memberId,m.plan].join(' ').toLowerCase().includes(q)&&(sf==='all'||status(m)===sf)&&(cf==='all'||(cf==='yes'?m.cardio:!m.cardio))).sort((a,b)=>a.name.localeCompare(b.name));
- $('memberRows').innerHTML=list.map(m=>{const st=status(m);return `<tr><td><strong>${esc(m.name)}</strong><div class="muted">${esc(m.memberId)} · ${esc(m.phone)}</div></td><td>${esc(m.plan)}</td><td>${fmt(m.startDate)}</td><td>${fmt(m.endDate)}</td><td>${m.cardio?'Yes':'No'}</td><td><span class="pill ${st}">${st==='active'?'Active':st==='expiring'?'Expiring soon':'Expired'}</span></td><td><div class="actions"><button class="mini wa" data-action="welcome" data-id="${esc(m.id)}">Welcome</button><button class="mini wa" data-action="expiring" data-id="${esc(m.id)}">Expiring</button><button class="mini wa" data-action="expired" data-id="${esc(m.id)}">Expired</button><button class="mini" data-action="renew" data-id="${esc(m.id)}">Renew</button><button class="mini" data-action="edit" data-id="${esc(m.id)}">Edit</button><button class="mini" data-action="delete" data-id="${esc(m.id)}">×</button></div></td></tr>`}).join('');
- $('emptyState').style.display=list.length?'none':'block';$('recordCount').textContent=`Showing ${list.length} of ${members.length} records`;
+$('totalCount').textContent=members.length;$('activeCount').textContent=members.filter(m=>status(m)==='active').length;$('expiringCount').textContent=members.filter(m=>status(m)==='expiring').length;$('cardioCount').textContent=members.filter(m=>m.cardio).length;
+const q=$('search').value.trim().toLowerCase(),sf=$('statusFilter').value,cf=$('cardioFilter').value;
+const list=members.filter(m=>[m.name,m.phone,m.memberId,m.plan].join(' ').toLowerCase().includes(q)&&(sf==='all'||status(m)===sf)&&(cf==='all'||(cf==='yes'?m.cardio:!m.cardio))).sort((a,b)=>a.name.localeCompare(b.name));
+$('memberRows').innerHTML=list.map(m=>{const st=status(m);return `<tr><td><strong>${esc(m.name)}</strong><div class="muted">${esc(m.memberId)} · ${esc(m.phone)}</div></td><td>${esc(m.plan)}</td><td>${fmt(m.startDate)}</td><td>${fmt(m.endDate)}</td><td>${m.cardio?'Yes':'No'}</td><td><span class="pill ${st}">${st==='active'?'Active':st==='expiring'?'Expiring soon':'Expired'}</span></td><td><div class="actions"><button class="mini wa" data-action="welcome" data-id="${esc(m.id)}">Welcome</button><button class="mini wa" data-action="expiring" data-id="${esc(m.id)}">Expiring</button><button class="mini wa" data-action="expired" data-id="${esc(m.id)}">Expired</button><button class="mini" data-action="renew" data-id="${esc(m.id)}">Renew reminder</button><button class="mini" data-action="newplan" data-id="${esc(m.id)}">New plan</button><button class="mini" data-action="edit" data-id="${esc(m.id)}">Edit</button><button class="mini" data-action="delete" data-id="${esc(m.id)}">×</button></div></td></tr>`}).join('');
+$('emptyState').style.display=list.length?'none':'block';$('recordCount').textContent=`Showing ${list.length} of ${members.length} records`;
 }
-function openMember(m=null){editingId=m?.id||null;$('modalTitle').textContent=m?'Edit member':'Add new member';$('memberForm').reset();$('memberId').value=m?.memberId||'';$('name').value=m?.name||'';$('phone').value=m?.phone||'';$('plan').value=m?.plan||'1 Month';$('startDate').value=m?.startDate||todayISO();$('endDate').value=m?.endDate||'';$('fee').value=m?.fee??'';$('payment').value=m?.payment||'Paid';$('cardio').checked=!!m?.cardio;$('gender').value=m?.gender||'';$('notes').value=m?.notes||'';if(!m||$('plan').value!=='Custom')updateExpiry();$('memberModal').classList.add('show')}
-function closeMember(){$('memberModal').classList.remove('show');editingId=null}
-function sendMessage(m,type){const raw=String(m.phone||'').replace(/\D/g,''),num=raw.length===10?'91'+raw:raw;if(num.length<10){toast('Please enter a valid WhatsApp number.');return}
- let msg=templates[type]||'';if(type==='renew')msg=`Hello ${m.name}, greetings from Fitness Empire! Your ${m.plan} membership ${status(m)==='expired'?'has expired':`is due to expire on ${fmt(m.endDate)}`}. We would be happy to help you renew. Please reply to confirm. Thank you!`;
- msg=msg.replace(/\{(name|plan|startDate|endDate)\}/g,(_,k)=>({name:m.name,plan:m.plan,startDate:fmt(m.startDate),endDate:fmt(m.endDate)}[k]||''));window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank','noopener')}
-$('memberForm').addEventListener('submit',e=>{e.preventDefault();const name=$('name').value.trim(),phone=$('phone').value.trim(),startDate=$('startDate').value,endDate=$('endDate').value;if(!name||!phone||!startDate||!endDate)return;if(date(endDate)<date(startDate)){toast('End date cannot be before start date.');return}
- const old=members.find(x=>x.id===editingId),m={id:editingId||uid(),memberId:$('memberId').value.trim()||old?.memberId||uid(),name,phone,plan:$('plan').value,startDate,endDate,fee:Number($('fee').value)||0,payment:$('payment').value,cardio:$('cardio').checked,gender:$('gender').value,notes:$('notes').value.trim(),createdAt:old?.createdAt||new Date().toISOString()};
- if(editingId)members=members.map(x=>x.id===editingId?m:x);else members.push(m);save();render();closeMember();toast('Member saved')});
+function openMember(m=null,newPlan=false){
+editingId=m?.id||null;creatingNewPlan=!!newPlan;
+$('modalTitle').textContent=newPlan?'Start new membership plan':m?'Edit member':'Add new member';
+$('memberForm').reset();$('memberId').value=m?.memberId||'';$('name').value=m?.name||'';$('phone').value=m?.phone||'';$('plan').value=newPlan?'1 Month':m?.plan||'1 Month';
+$('startDate').value=newPlan?todayISO():m?.startDate||todayISO();$('endDate').value=newPlan?'':m?.endDate||'';
+$('fee').value=newPlan?'':m?.fee??'';$('paymentMethod').value=newPlan?'Cash':m?.paymentMethod||'Cash';
+$('payment').value=newPlan?'Paid':m?.payment||'Paid';$('cardio').checked=newPlan?false:!!m?.cardio;
+$('gender').value=m?.gender||'';$('notes').value=newPlan?'':m?.notes||'';
+if(!m||newPlan||$('plan').value!=='Custom')updateExpiry();
+$('memberModal').classList.add('show')
+}
+function closeMember(){$('memberModal').classList.remove('show');editingId=null;creatingNewPlan=false}
+function showLogin(){$('loginModal').classList.add('show');$('adminEmail').focus()}
+function closeLogin(){$('loginModal').classList.remove('show')}
+function setAuth(session){authSession=session;sessionStorage.setItem('fitnessEmpireAdminSession',JSON.stringify(session));$('adminLoginBtn').textContent='Admin logged in'}
+function restoreAuth(){try{const s=JSON.parse(sessionStorage.getItem('fitnessEmpireAdminSession')||'null');if(s?.access_token&&s?.user?.id===ADMIN_ID&&s.expires_at*1000>Date.now()){authSession=s;$('adminLoginBtn').textContent='Admin logged in'}else sessionStorage.removeItem('fitnessEmpireAdminSession')}catch{}}
+async function ensureAdmin(){if(authSession?.access_token&&authSession.expires_at*1000>Date.now())return true;showLogin();return false}
+async function createInvoice(m){
+if(!authSession?.access_token)throw new Error('Please log in as admin before creating an invoice.');
+const response=await fetch(INVOICE_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLISHABLE_KEY,'Authorization':'Bearer '+authSession.access_token},body:JSON.stringify({
+member_name:m.name,member_phone:m.phone,plan_name:m.plan,amount_paid:Number(m.fee)||0,payment_method:m.paymentMethod||'Cash',membership_start_date:m.startDate,membership_end_date:m.endDate
+})});
+let data={};try{data=await response.json()}catch{}
+if(!response.ok||!data.invoice_url)throw new Error(data.error||'Invoice could not be created.');
+return data;
+}
+function sendMessage(m,type){
+const raw=String(m.phone||'').replace(/\D/g,''),num=raw.length===10?'91'+raw:raw;if(num.length<10){toast('Please enter a valid WhatsApp number.');return}
+let msg=templates[type]||'';
+if(type==='renew')msg=`Hello ${m.name}, greetings from Fitness Empire! Your ${m.plan} membership ${status(m)==='expired'?'has expired':`is due to expire on ${fmt(m.endDate)}`}. We would be happy to help you renew. Please reply to confirm. Thank you!`;
+msg=msg.replace(/\{(name|plan|startDate|endDate|invoiceLink)\}/g,(_,k)=>({name:m.name,plan:m.plan,startDate:fmt(m.startDate),endDate:fmt(m.endDate),invoiceLink:m.invoiceUrl||'Invoice link will be shared by Fitness Empire'}[k]||''));
+if(type==='welcome'&&m.invoiceUrl&&!templates.welcome.includes('{invoiceLink}'))msg+=' Invoice copy: '+m.invoiceUrl;
+window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank','noopener')
+}
+$('memberForm').addEventListener('submit',async e=>{
+e.preventDefault();
+const name=$('name').value.trim(),phone=$('phone').value.trim(),startDate=$('startDate').value,endDate=$('endDate').value;
+if(!name||!phone||!startDate||!endDate)return;
+if(date(endDate)<date(startDate)){toast('End date cannot be before start date.');return}
+const old=members.find(x=>x.id===editingId);
+const isNewMembership=!old||creatingNewPlan;
+if(isNewMembership&&!authSession?.access_token){toast('Please log in as admin first.');showLogin();return}
+const m={...(old||{}),id:editingId||uid(),memberId:$('memberId').value.trim()||old?.memberId||uid(),name,phone,plan:$('plan').value,startDate,endDate,fee:Number($('fee').value)||0,payment:$('payment').value,paymentMethod:$('paymentMethod').value,cardio:$('cardio').checked,gender:$('gender').value,notes:$('notes').value.trim(),createdAt:old?.createdAt||new Date().toISOString(),invoiceUrl:isNewMembership?'':old?.invoiceUrl||''};
+if(old)members=members.map(x=>x.id===old.id?m:x);else members.push(m);
+save();render();closeMember();
+if(isNewMembership){
+toast('Member saved. Creating invoice…');
+try{
+const result=await createInvoice(m);m.invoiceUrl=result.invoice_url;m.invoiceNumber=result.invoice_number;
+members=members.map(x=>x.id===m.id?m:x);save();render();
+toast('Invoice '+result.invoice_number+' created successfully.');
+}catch(err){
+toast('Member saved, but invoice creation failed: '+err.message);
+}
+}else toast('Member details updated');
+});
+$('loginForm').addEventListener('submit',async e=>{
+e.preventDefault();const email=$('adminEmail').value.trim(),password=$('adminPassword').value;
+try{
+const r=await fetch(SUPABASE_URL+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json','apikey':SUPABASE_PUBLISHABLE_KEY},body:JSON.stringify({email,password})});
+const data=await r.json();
+if(!r.ok)throw new Error(data.msg||data.message||data.error_description||'Login failed. Check your email and password.');
+if(data.user?.id!==ADMIN_ID)throw new Error('This account is not the authorised Fitness Empire admin.');
+data.expires_at=data.expires_at||Math.floor(Date.now()/1000)+(data.expires_in||3600);setAuth(data);closeLogin();$('adminPassword').value='';toast('Admin login successful');
+}catch(err){toast(err.message||'Admin login failed')}
+});
+$('adminLoginBtn').addEventListener('click',()=>{if(authSession){toast('Admin is logged in for this browser session.');return}showLogin()});
+['closeLogin','cancelLogin'].forEach(id=>$(id).addEventListener('click',closeLogin));
+$('memberRows').addEventListener('click',e=>{const b=e.target.closest('button[data-action]');if(!b)return;const m=members.find(x=>x.id===b.dataset.id);if(!m)return;const a=b.dataset.action;if(a==='edit')openMember(m);else if(a==='newplan')openMember(m,true);else if(a==='delete'&&confirm(`Delete ${m.name}? This cannot be undone.`)){members=members.filter(x=>x.id!==m.id);save();render()}else if(['welcome','expiring','expired','renew'].includes(a))sendMessage(m,a)});
 $('plan').addEventListener('change',updateExpiry);$('startDate').addEventListener('change',updateExpiry);
 ['addTop','addPanel'].forEach(id=>$(id).addEventListener('click',()=>openMember()));
 ['closeModal','cancelModal'].forEach(id=>$(id).addEventListener('click',closeMember));
 $('memberModal').addEventListener('click',e=>{if(e.target===$('memberModal'))closeMember()});
 ['search','statusFilter','cardioFilter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
-$('memberRows').addEventListener('click',e=>{const b=e.target.closest('button[data-action]');if(!b)return;const m=members.find(x=>x.id===b.dataset.id);if(!m)return;const a=b.dataset.action;if(a==='edit')openMember(m);else if(a==='delete'&&confirm(`Delete ${m.name}? This cannot be undone.`)){members=members.filter(x=>x.id!==m.id);save();render()}else if(['welcome','expiring','expired','renew'].includes(a))sendMessage(m,a)});
 function showTemplates(){$('welcomeTemplate').value=templates.welcome;$('expiringTemplate').value=templates.expiring;$('expiredTemplate').value=templates.expired;$('templatesModal').classList.add('show')}
 $('templatesBtn').addEventListener('click',showTemplates);$('closeTemplates').addEventListener('click',()=>$('templatesModal').classList.remove('show'));
 $('saveTemplates').addEventListener('click',()=>{templates={welcome:$('welcomeTemplate').value,expiring:$('expiringTemplate').value,expired:$('expiredTemplate').value};localStorage.setItem(TEMPLATE_KEY,JSON.stringify(templates));$('templatesModal').classList.remove('show');toast('WhatsApp templates saved')});
 $('resetTemplates').addEventListener('click',()=>{templates={...defaults};showTemplates();toast('Default templates restored')});
-$('exportBtn').addEventListener('click',()=>{if(!members.length){toast('No member records to export');return}const cols=['id','memberId','name','phone','plan','startDate','endDate','cardio','fee','payment','gender','notes','createdAt'];const csv=[cols.join(','),...members.map(m=>cols.map(k=>'"'+String(k==='cardio'?(m[k]?'Yes':'No'):(m[k]??'')).replace(/"/g,'""')+'"').join(','))].join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='fitness-empire-members.csv';a.click();URL.revokeObjectURL(url);toast('Backup downloaded')});
+$('exportBtn').addEventListener('click',()=>{if(!members.length){toast('No member records to export');return}const cols=['id','memberId','name','phone','plan','startDate','endDate','cardio','fee','payment','paymentMethod','invoiceUrl','invoiceNumber','gender','notes','createdAt'];const csv=[cols.join(','),...members.map(m=>cols.map(k=>'"'+String(k==='cardio'?(m[k]?'Yes':'No'):(m[k]??'')).replace(/"/g,'""')+'"').join(','))].join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='fitness-empire-members.csv';a.click();URL.revokeObjectURL(url);toast('Backup downloaded')});
 $('importBtn').addEventListener('click',()=>$('importFile').click());
-$('importFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const csv=(await f.text()).replace(/^\uFEFF/,'');const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<csv.length;i++){const c=csv[i];if(quoted&&c==='"'&&csv[i+1]==='"'){cell+='"';i++}else if(c==='"')quoted=!quoted;else if(c===','&&!quoted){row.push(cell);cell=''}else if((c==='\n'||c==='\r')&&!quoted){row.push(cell);if(row.some(x=>x!==''))rows.push(row);row=[];cell='';if(c==='\r'&&csv[i+1]==='\n')i++}else cell+=c}row.push(cell);if(row.some(x=>x!==''))rows.push(row);if(rows.length<2)throw Error('CSV has no member records');const heads=rows.shift().map(x=>x.trim());const imported=rows.map(vals=>{const o={};heads.forEach((h,i)=>o[h]=vals[i]??'');return{id:o.id||uid(),memberId:o.memberId||uid(),name:o.name||'',phone:o.phone||'',plan:o.plan||'Custom',startDate:o.startDate||'',endDate:o.endDate||'',cardio:/^(yes|true|1)$/i.test(o.cardio||''),fee:Number(o.fee)||0,payment:o.payment||'Pending',gender:o.gender||'',notes:o.notes||'',createdAt:o.createdAt||new Date().toISOString()}}).filter(m=>m.name&&m.phone&&m.startDate&&m.endDate);if(!imported.length)throw Error('No valid member rows found');if(confirm(`Import ${imported.length} members? This replaces the current list on this device.`)){members=imported;save();render();toast('Members imported')}}catch(err){toast(err.message||'Import failed')}finally{e.target.value=''}});
+$('importFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const csv=(await f.text()).replace(/^\uFEFF/,'');const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<csv.length;i++){const c=csv[i];if(quoted&&c==='"'&&csv[i+1]==='"'){cell+='"';i++}else if(c==='"')quoted=!quoted;else if(c===','&&!quoted){row.push(cell);cell=''}else if((c==='\n'||c==='\r')&&!quoted){row.push(cell);if(row.some(x=>x!==''))rows.push(row);row=[];cell='';if(c==='\r'&&csv[i+1]==='\n')i++}else cell+=c}row.push(cell);if(row.some(x=>x!==''))rows.push(row);if(rows.length<2)throw Error('CSV has no member records');const heads=rows.shift().map(x=>x.trim());const imported=rows.map(vals=>{const o={};heads.forEach((h,i)=>o[h]=vals[i]??'');return{id:o.id||uid(),memberId:o.memberId||uid(),name:o.name||'',phone:o.phone||'',plan:o.plan||'Custom',startDate:o.startDate||'',endDate:o.endDate||'',cardio:/^(yes|true|1)$/i.test(o.cardio||''),fee:Number(o.fee)||0,payment:o.payment||'Pending',paymentMethod:o.paymentMethod||'Cash',invoiceUrl:o.invoiceUrl||'',invoiceNumber:o.invoiceNumber||'',gender:o.gender||'',notes:o.notes||'',createdAt:o.createdAt||new Date().toISOString()}}).filter(m=>m.name&&m.phone&&m.startDate&&m.endDate);if(!imported.length)throw Error('No valid member rows found');if(confirm(`Import ${imported.length} members? This replaces the current list on this device.`)){members=imported;save();render();toast('Members imported')}}catch(err){toast(err.message||'Import failed')}finally{e.target.value=''}});
 $('today').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-load();render();
+load();restoreAuth();render();
 })();
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.warn));
 </script>
