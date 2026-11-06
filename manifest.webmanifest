@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "Fitness Empire Member Manager",
+  "short_name": "Fitness Empire",
+  "description": "Manage Fitness Empire gym memberships and renewal reminders.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111315",
+  "theme_color": "#C99A42",
+  "orientation": "any",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
