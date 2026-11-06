@@ -5,277 +5,117 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111315">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Fitness Empire">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Fitness Empire · Member Manager</title>
 <style>
-:root {
-  --site-primary: #C99A42;
-  --site-on-primary: #17130B;
-  --site-secondary: #25282B;
-  --site-on-secondary: #F4F1E9;
-  --site-background: #111315;
-  --site-on-background: #F4F1E9;
-  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --site-font-heading: Inter, ui-sans-serif, system-ui, sans-serif;
-  --site-heading-scale: 1;
-  --site-spacing-scale: 1;
-  --site-radius-scale: 1;
-  --site-decoration-opacity: 1;
-  color-scheme: light dark;
-  --surface: light-dark(#FFFFFF, #1A1D20);
-  --surface-2: light-dark(#F5F5F2, #22262A);
-  --text: light-dark(#17191B, #F4F1E9);
-  --muted: light-dark(#70777D, #A5ABB0);
-  --line: light-dark(#E5E7E8, #34393E);
-  --green: #45B887;
-  --red: #E46E6E;
-  --amber: #D8A94F;
-}
-* { box-sizing: border-box; }
-body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; }
-.shell { max-width: 1440px; margin: auto; padding: calc(28px * var(--site-spacing-scale)) calc(22px * var(--site-spacing-scale)) 48px; }
-.topbar { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:30px; }
-.brand { display:flex; align-items:center; gap:13px; }
-.brand-logo { width:132px; height:59px; object-fit:contain; border-radius:7px; background:#d2d2d2; display:block; }\n.brand-mark { display:none; }
-.brand-name { font-family:var(--site-font-heading); font-weight:850; letter-spacing:.08em; font-size:14px; }
-.brand-sub { color:var(--muted); font-size:11px; margin-top:3px; letter-spacing:.12em; text-transform:uppercase; }
-.top-actions { display:flex; align-items:center; gap:10px; }
-.date-chip { color:var(--muted); font-size:12px; padding:10px 13px; border:1px solid var(--line); border-radius:999px; }
-.btn { border:0; border-radius:calc(11px * var(--site-radius-scale)); padding:11px 15px; font-weight:750; font-size:13px; transition:.15s; }
-.btn-primary { background:var(--site-primary); color:var(--site-on-primary); }
-.btn-primary:hover { filter:brightness(1.08); }
-.btn-quiet { background:var(--surface-2); color:var(--text); border:1px solid var(--line); }
-.btn-danger { background:rgba(228,110,110,.12); color:var(--red); border:1px solid rgba(228,110,110,.25); }
-.hero { display:flex; align-items:flex-end; justify-content:space-between; gap:18px; margin-bottom:22px; }
-.eyebrow { color:var(--site-primary); text-transform:uppercase; letter-spacing:.18em; font-size:10px; font-weight:850; }
-h1 { font-size:calc(30px * var(--site-heading-scale)); line-height:1.12; margin:8px 0 7px; letter-spacing:-.04em; }
-.hero p { margin:0; color:var(--muted); font-size:13px; }
-.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:13px; margin:20px 0 22px; }
-.stat { background:var(--surface); color:var(--text); border:1px solid var(--line); border-radius:16px; padding:17px; min-height:110px; }
-.stat-top { display:flex; align-items:center; justify-content:space-between; color:var(--muted); font-size:12px; }
-.stat-value { font-size:29px; font-weight:850; letter-spacing:-.05em; margin-top:13px; }
-.stat-note { color:var(--muted); font-size:11px; margin-top:3px; }
-.stat-icon { color:var(--site-primary); font-size:17px; }
-.panel { background:var(--surface); color:var(--text); border:1px solid var(--line); border-radius:18px; overflow:hidden; }
-.panel-head { padding:18px 19px; display:flex; justify-content:space-between; align-items:center; gap:12px; border-bottom:1px solid var(--line); }
-.panel-title { font-weight:800; font-size:15px; }
-.panel-sub { color:var(--muted); font-size:11px; margin-top:4px; }
-.toolbar { display:flex; gap:9px; align-items:center; flex-wrap:wrap; padding:14px 18px; border-bottom:1px solid var(--line); }
-.search { min-width:210px; flex:1; }
-.field, .search input, .toolbar select { width:100%; background:var(--surface-2); color:var(--text); border:1px solid var(--line); border-radius:10px; padding:10px 12px; outline:none; }
-.field:focus, .search input:focus, .toolbar select:focus { border-color:var(--site-primary); }
-.toolbar select { width:auto; min-width:140px; }
-.table-wrap { overflow-x:auto; }
-table { width:100%; border-collapse:collapse; min-width:780px; }
-th { color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:.12em; text-align:left; padding:13px 18px; font-weight:800; }
-td { padding:14px 18px; border-top:1px solid var(--line); font-size:12px; vertical-align:middle; }
-.member { display:flex; align-items:center; gap:10px; }
-.avatar { width:34px; height:34px; border-radius:11px; background:var(--surface-2); display:grid; place-items:center; color:var(--site-primary); font-weight:850; }
-.member-name { font-weight:800; font-size:12px; }
-.member-phone { color:var(--muted); font-size:10px; margin-top:3px; }
-.pill { display:inline-flex; align-items:center; gap:5px; border-radius:999px; padding:5px 8px; font-size:10px; font-weight:800; white-space:nowrap; }
-.pill.active { background:rgba(69,184,135,.13); color:var(--green); }
-.pill.expiring { background:rgba(216,169,79,.15); color:var(--amber); }
-.pill.expired { background:rgba(228,110,110,.13); color:var(--red); }
-.pill.cardio { background:rgba(201,154,66,.14); color:var(--site-primary); }
-.pill.no-cardio { background:var(--surface-2); color:var(--muted); }
-.row-actions { display:flex; gap:6px; }
-.icon-btn { border:1px solid var(--line); background:var(--surface-2); color:var(--text); border-radius:8px; padding:7px 9px; font-size:11px; }
-.icon-btn.whatsapp { color:var(--green); border-color:rgba(69,184,135,.25); }
-.icon-btn.renew { color:var(--site-primary); border-color:rgba(201,154,66,.35); }
-.empty { padding:48px 20px; text-align:center; color:var(--muted); }
-.empty strong { display:block; color:var(--text); margin-bottom:6px; }
-.footer-note { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; padding:13px 18px; color:var(--muted); font-size:10px; }
-.overlay { position:fixed; inset:0; background:rgba(0,0,0,.58); display:none; align-items:center; justify-content:center; padding:18px; z-index:10; }
-.overlay.show { display:flex; }
-.modal { width:min(650px,100%); max-height:92vh; overflow:auto; background:var(--surface); color:var(--text); border:1px solid var(--line); border-radius:20px; box-shadow:0 24px 90px rgba(0,0,0,.35); }
-.modal-head { display:flex; justify-content:space-between; align-items:center; padding:19px 21px; border-bottom:1px solid var(--line); }
-.modal-head h2 { font-size:17px; margin:0; }
-.close { border:0; background:var(--surface-2); color:var(--text); border-radius:9px; width:32px; height:32px; font-size:18px; }
-.form-grid { display:grid; grid-template-columns:1fr 1fr; gap:13px; padding:20px; }
-.form-field label { display:block; font-size:11px; color:var(--muted); margin-bottom:6px; font-weight:700; }
-.form-field.full { grid-column:1/-1; }
-.form-field input, .form-field select, .form-field textarea { width:100%; background:var(--surface-2); border:1px solid var(--line); color:var(--text); padding:11px 12px; border-radius:10px; outline:none; }
-.form-field textarea { min-height:72px; resize:vertical; }
-.checkline { display:flex; align-items:center; gap:9px; min-height:40px; }
-.checkline input { width:17px; height:17px; accent-color:var(--site-primary); }
-.modal-foot { padding:15px 20px 20px; display:flex; justify-content:flex-end; gap:9px; border-top:1px solid var(--line); }
-.toast { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:var(--text); color:var(--surface); border-radius:999px; padding:11px 16px; font-size:12px; z-index:20; display:none; box-shadow:0 8px 30px rgba(0,0,0,.2); }
-.toast.show { display:block; }
-.disclaimer { margin-top:14px; color:var(--muted); font-size:10px; line-height:1.6; }
-.sync-guide { background:var(--surface); color:var(--text); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin:0 0 18px; }
-.sync-guide h2 { margin:0 0 7px; font-size:14px; }
-.sync-guide p { margin:0; color:var(--muted); font-size:11px; line-height:1.65; }
-@media(max-width:800px) { .stats { grid-template-columns:repeat(2,minmax(0,1fr)); } .hero { align-items:flex-start; flex-direction:column; } }
-@media(max-width:520px) { .shell { padding:18px 13px 32px; } .topbar { margin-bottom:23px; } .date-chip { display:none; } h1 { font-size:26px; } .stats { gap:9px; } .stat { padding:13px; min-height:98px; } .stat-value { font-size:25px; } .form-grid { grid-template-columns:1fr; } .form-field.full { grid-column:auto; } .panel-head { align-items:flex-start; } }
+:root{--gold:#C99A42;--bg:#111315;--panel:#1A1D20;--panel2:#25282B;--text:#F4F1E9;--muted:#A5ABB0;--line:#34393E;--green:#45B887;--red:#E46E6E;--amber:#D8A94F}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{max-width:1440px;margin:auto;padding:24px 18px 44px}.topbar,.hero,.panel-head,.toolbar,.row-actions,.brand,.actions{display:flex;align-items:center;justify-content:space-between;gap:12px}.topbar{margin-bottom:28px}.brand{justify-content:flex-start}.brand-logo{width:125px;height:56px;object-fit:contain;border-radius:7px;background:#d2d2d2}.brand-name{font-weight:900;letter-spacing:.1em}.brand-sub,.muted,.panel-sub,.stat-note{color:var(--muted);font-size:11px}.brand-sub{text-transform:uppercase;letter-spacing:.12em;margin-top:4px}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:750;font-size:13px}.primary{background:var(--gold);color:#17130B}.quiet{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.danger{background:#4a2929;color:#ffaaaa}.hero{align-items:flex-end;margin-bottom:20px}.eyebrow{color:var(--gold);font-size:10px;font-weight:850;letter-spacing:.18em;text-transform:uppercase}h1{font-size:30px;margin:7px 0}.hero p{color:var(--muted);font-size:13px;margin:0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}.stat,.panel,.guide{background:var(--panel);border:1px solid var(--line);border-radius:15px}.stat{padding:16px;min-height:100px}.stat-value{font-size:29px;font-weight:850;margin-top:12px}.stat-label{color:var(--muted);font-size:12px}.guide{padding:15px 17px;margin-bottom:17px}.guide h3{margin:0 0 6px;font-size:14px}.guide p{margin:0;color:var(--muted);font-size:11px;line-height:1.6}.panel{overflow:hidden}.panel-head{padding:17px 18px;border-bottom:1px solid var(--line)}.panel-title{font-weight:800}.panel-sub{margin-top:4px}.toolbar{justify-content:flex-start;flex-wrap:wrap;padding:13px 17px;border-bottom:1px solid var(--line)}input,select,textarea{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:10px 11px;min-width:0}.search{flex:1;min-width:190px}.search input{width:100%}.toolbar select{min-width:140px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:850px}th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);font-size:12px}th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.1em}td{vertical-align:middle}.pill{display:inline-block;border-radius:20px;padding:5px 8px;font-size:10px;font-weight:800}.active{color:var(--green);background:#18382d}.expiring{color:var(--amber);background:#40351d}.expired{color:var(--red);background:#422525}.actions{justify-content:flex-start;flex-wrap:wrap}.mini{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:6px 8px;border-radius:7px;font-size:10px}.mini.wa{color:var(--green)}.empty{text-align:center;padding:35px;color:var(--muted)}.foot{padding:12px 16px;color:var(--muted);font-size:10px}.overlay{display:none;position:fixed;inset:0;background:#000a;z-index:5;align-items:center;justify-content:center;padding:15px}.overlay.show{display:flex}.modal{width:min(680px,100%);max-height:92vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px}.modal-head,.modal-foot{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-foot{border:0;border-top:1px solid var(--line);justify-content:flex-end}.modal-head h2{font-size:16px;margin:0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px}.field label{display:block;color:var(--muted);font-size:11px;font-weight:700;margin-bottom:5px}.field input,.field select,.field textarea{width:100%}.field textarea{min-height:70px}.full{grid-column:1/-1}.check{display:flex;align-items:center;gap:8px;min-height:38px}.check input{min-width:auto}.toast{display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 15px;border-radius:25px;z-index:9;font-size:12px}.toast.show{display:block}.template-list{padding:16px 18px;display:grid;gap:12px}.template-list label{display:block;font-size:11px;color:var(--muted);font-weight:700;margin-bottom:5px}.template-list textarea{width:100%;min-height:72px}.section-actions{padding:0 18px 16px;display:flex;justify-content:flex-end;gap:8px}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.hero{align-items:flex-start;flex-direction:column}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.topbar{align-items:flex-start}.brand-logo{width:88px;height:46px}h1{font-size:25px}.date-chip{display:none}}
 </style>
 </head>
 <body>
-<div id="app">
-  <main class="shell">
-    <header class="topbar">
-      <div class="brand"><img class="brand-logo" src="fitness-empire-logo.jpg" alt="Fitness Empire logo"><div><div class="brand-name">FITNESS EMPIRE</div><div class="brand-sub">Member management</div></div></div>
-      <div class="top-actions"><div class="date-chip" id="today"></div><button class="btn btn-primary" id="addTop">＋ Add member</button></div>
-    </header>
-    <section class="hero">
-      <div><div class="eyebrow">Gym operations</div><h1>Members overview</h1><p>Keep memberships, cardio access and client follow-ups organised.</p></div>
-      <div class="top-actions"><button class="btn btn-quiet" id="importBtn">↑ Import backup</button><button class="btn btn-quiet" id="exportBtn">↓ Export backup</button><input id="importFile" type="file" accept=".csv,text/csv" hidden></div>
-    </section>
-    <section class="stats" aria-label="Member statistics">
-      <div class="stat"><div class="stat-top">Total members <span class="stat-icon">◉</span></div><div class="stat-value" id="totalCount">0</div><div class="stat-note">All saved member records</div></div>
-      <div class="stat"><div class="stat-top">Active memberships <span class="stat-icon">✓</span></div><div class="stat-value" id="activeCount">0</div><div class="stat-note">Valid through today</div></div>
-      <div class="stat"><div class="stat-top">Expiring in 7 days <span class="stat-icon">◷</span></div><div class="stat-value" id="expiringCount">0</div><div class="stat-note">Follow up before expiry</div></div>
-      <div class="stat"><div class="stat-top">Cardio access <span class="stat-icon">⌁</span></div><div class="stat-value" id="cardioCount">0</div><div class="stat-note">Members with cardio included</div></div>
-    </section>
-    <section class="sync-guide" aria-label="Using the app on two devices"><h2>Use Fitness Empire on iPhone + computer</h2><p><strong>On the device you just updated:</strong> tap “Export backup” and save the CSV file. <strong>On your other device:</strong> open this same app, tap “Import backup”, and choose that CSV file. Repeat whenever you want to transfer the latest member list. Import replaces that device’s current list, so export it first if it contains newer records.</p></section>
-    <section class="panel">
-      <div class="panel-head"><div><div class="panel-title">Member database</div><div class="panel-sub">Membership details and quick client actions</div></div><button class="btn btn-primary" id="addPanel">＋ New member</button></div>
-      <div class="toolbar">
-        <div class="search"><input id="search" type="search" placeholder="Search name, phone or member ID…" aria-label="Search members"></div>
-        <select id="statusFilter" aria-label="Filter by membership"><option value="all">All memberships</option><option value="active">Active</option><option value="expiring">Expiring soon</option><option value="expired">Expired</option></select>
-        <select id="cardioFilter" aria-label="Filter by cardio"><option value="all">All cardio plans</option><option value="yes">With cardio</option><option value="no">Without cardio</option></select>
-      </div>
-      <div class="table-wrap"><table><thead><tr><th>Member</th><th>Plan</th><th>Start date</th><th>Expiry date</th><th>Cardio</th><th>Status</th><th>Actions</th></tr></thead><tbody id="memberRows"></tbody></table><div class="empty" id="emptyState"><strong>No members added yet</strong>Add your first member to start building the gym database.</div></div>
-      <div class="footer-note"><span id="recordCount">0 records</span><span>WhatsApp opens a pre-filled message for you to review and send.</span></div>
-    </section>
-    <p class="disclaimer">Free two-device workflow: each device keeps its own local database. Export a CSV backup on one device and use “Import backup” on the other to transfer the latest records. Import replaces the records on that device, so export first if you need to preserve them. This is manual transfer, not automatic live sync. Keep backups in a private folder. This preview is not yet a published/installable PWA.</p>
-  </main>
-</div>
-<div class="overlay" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <div class="modal-head"><h2 id="modalTitle">Add new member</h2><button class="close" id="closeModal" aria-label="Close">×</button></div>
-    <form id="memberForm">
-      <div class="form-grid">
-        <div class="form-field"><label for="name">Full name *</label><input id="name" required maxlength="80" placeholder="Member name"></div>
-        <div class="form-field"><label for="phone">WhatsApp number *</label><input id="phone" required inputmode="tel" placeholder="e.g. 91 9876543210"></div>
-        <div class="form-field"><label for="memberId">Member ID</label><input id="memberId" placeholder="Auto-generated if blank"></div>
-        <div class="form-field"><label for="plan">Membership plan *</label><select id="plan" required><option value="1 Month">1 Month</option><option value="3 Months">3 Months</option><option value="6 Months">6 Months</option><option value="12 Months">12 Months</option><option value="Custom">Custom</option></select></div>
-        <div class="form-field"><label for="startDate">Start date *</label><input id="startDate" type="date" required></div>
-        <div class="form-field"><label for="endDate">Expiry date *</label><input id="endDate" type="date" required></div>
-        <div class="form-field"><label for="fee">Amount paid (₹)</label><input id="fee" type="number" min="0" step="1" placeholder="0"></div>
-        <div class="form-field"><label for="payment">Payment status</label><select id="payment"><option>Paid</option><option>Part-paid</option><option>Pending</option></select></div>
-        <div class="form-field"><label for="cardio">Cardio access</label><div class="checkline"><input id="cardio" type="checkbox"><span>Cardio included in this membership</span></div></div>
-        <div class="form-field"><label for="gender">Gender (optional)</label><select id="gender"><option value="">Not specified</option><option>Male</option><option>Female</option><option>Other</option></select></div>
-        <div class="form-field full"><label for="notes">Notes (optional)</label><textarea id="notes" placeholder="Emergency contact, preferences, or other notes"></textarea></div>
-      </div>
-      <div class="modal-foot"><button type="button" class="btn btn-quiet" id="cancelModal">Cancel</button><button type="submit" class="btn btn-primary">Save member</button></div>
-    </form>
-  </div>
-</div>
-<div class="toast" id="toast" role="status"></div>
+<main class="shell">
+<header class="topbar">
+ <div class="brand"><img class="brand-logo" src="fitness-empire-logo.jpg" alt="Fitness Empire logo"><div><div class="brand-name">FITNESS EMPIRE</div><div class="brand-sub">Member management</div></div></div>
+ <div class="actions"><span class="muted" id="today"></span><button class="btn primary" id="addTop">＋ Add member</button></div>
+</header>
+<section class="hero"><div><div class="eyebrow">Gym operations</div><h1>Members overview</h1><p>Manage memberships, payments and WhatsApp follow-ups.</p></div>
+ <div class="actions"><button class="btn quiet" id="importBtn">↑ Import backup</button><button class="btn quiet" id="exportBtn">↓ Export backup</button><input id="importFile" type="file" accept=".csv,text/csv" hidden></div>
+</section>
+<section class="stats">
+ <div class="stat"><div class="stat-label">Total members</div><div class="stat-value" id="totalCount">0</div></div>
+ <div class="stat"><div class="stat-label">Active memberships</div><div class="stat-value" id="activeCount">0</div></div>
+ <div class="stat"><div class="stat-label">Expiring in 7 days</div><div class="stat-value" id="expiringCount">0</div></div>
+ <div class="stat"><div class="stat-label">Cardio access</div><div class="stat-value" id="cardioCount">0</div></div>
+</section>
+<section class="guide"><h3>iPhone + computer backup</h3><p>Member records are stored on each device separately. Export a CSV backup on one device and import it on the other to transfer records. Import replaces that device’s current list, so export first if it contains newer records.</p></section>
+<section class="panel">
+ <div class="panel-head"><div><div class="panel-title">Member database</div><div class="panel-sub">Member details and quick actions</div></div><div class="actions"><button class="btn quiet" id="templatesBtn">WhatsApp templates</button><button class="btn primary" id="addPanel">＋ New member</button></div></div>
+ <div class="toolbar"><div class="search"><input id="search" type="search" placeholder="Search name, phone or member ID…"></div><select id="statusFilter"><option value="all">All memberships</option><option value="active">Active</option><option value="expiring">Expiring soon</option><option value="expired">Expired</option></select><select id="cardioFilter"><option value="all">All cardio plans</option><option value="yes">With cardio</option><option value="no">Without cardio</option></select></div>
+ <div class="table-wrap"><table><thead><tr><th>Member</th><th>Plan</th><th>Start date</th><th>Expiry date</th><th>Cardio</th><th>Status</th><th>WhatsApp actions</th></tr></thead><tbody id="memberRows"></tbody></table><div class="empty" id="emptyState">No members added yet. Add your first member.</div></div>
+ <div class="foot" id="recordCount">0 records</div>
+</section>
+</main>
+<div class="overlay" id="memberModal"><div class="modal">
+ <div class="modal-head"><h2 id="modalTitle">Add member</h2><button class="btn quiet" id="closeModal">×</button></div>
+ <form id="memberForm"><div class="form-grid">
+  <div class="field"><label for="name">Full name *</label><input id="name" required maxlength="80"></div>
+  <div class="field"><label for="phone">WhatsApp number *</label><input id="phone" required inputmode="tel" placeholder="10-digit or country code"></div>
+  <div class="field"><label for="memberId">Member ID</label><input id="memberId" placeholder="Auto-generated if blank"></div>
+  <div class="field"><label for="plan">Membership plan *</label><select id="plan"><option>1 Month</option><option>3 Months</option><option>6 Months</option><option>12 Months</option><option>Custom</option></select></div>
+  <div class="field"><label for="startDate">Plan start date *</label><input id="startDate" type="date" required></div>
+  <div class="field"><label for="endDate">Plan end date *</label><input id="endDate" type="date" required></div>
+  <div class="field"><label for="fee">Amount paid (₹)</label><input id="fee" type="number" min="0" step="1"></div>
+  <div class="field"><label for="payment">Payment status</label><select id="payment"><option>Paid</option><option>Part-paid</option><option>Pending</option></select></div>
+  <div class="field"><label>Cardio access</label><div class="check"><input id="cardio" type="checkbox"><span>Cardio included</span></div></div>
+  <div class="field"><label for="gender">Gender (optional)</label><select id="gender"><option value="">Not specified</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+  <div class="field full"><label for="notes">Notes (optional)</label><textarea id="notes"></textarea></div>
+ </div><div class="modal-foot"><button type="button" class="btn quiet" id="cancelModal">Cancel</button><button class="btn primary" type="submit">Save member</button></div></form>
+</div></div>
+<div class="overlay" id="templatesModal"><div class="modal">
+ <div class="modal-head"><h2>WhatsApp message templates</h2><button class="btn quiet" id="closeTemplates">×</button></div>
+ <div class="template-list">
+  <div><label for="welcomeTemplate">New member welcome</label><textarea id="welcomeTemplate"></textarea></div>
+  <div><label for="expiringTemplate">Membership expiring soon</label><textarea id="expiringTemplate"></textarea></div>
+  <div><label for="expiredTemplate">Membership expired</label><textarea id="expiredTemplate"></textarea></div>
+  <p class="muted">Available placeholders: {name}, {plan}, {startDate}, {endDate}. Templates are saved on this device.</p>
+ </div><div class="section-actions"><button class="btn quiet" id="resetTemplates">Reset defaults</button><button class="btn primary" id="saveTemplates">Save templates</button></div>
+</div></div>
+<div class="toast" id="toast"></div>
 <script>
-(() => {
-  const STORAGE_KEY = 'fitnessEmpireMembers_v1';
-  let members = [];
-  let editingId = null;
-  const $ = id => document.getElementById(id);
-  const todayISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
-  const parseDate = s => new Date(s + 'T00:00:00');
-  const dayDiff = s => Math.round((parseDate(s) - parseDate(todayISO())) / 86400000);
-  const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const uid = () => 'FE' + Math.random().toString(36).slice(2,7).toUpperCase();
-  function load() { try { members = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); if (!Array.isArray(members)) members=[]; } catch { members=[]; } }
-  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(members)); }
-  function status(m) { const n=dayDiff(m.endDate); return n < 0 ? 'expired' : n <= 7 ? 'expiring' : 'active'; }
-  function statusLabel(s) { return s==='active'?'Active':s==='expiring'?'Expiring soon':'Expired'; }
-  function fmt(s) { if(!s) return '—'; return parseDate(s).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}); }
-  function render() {
-    const active=members.filter(m=>status(m)==='active').length;
-    const expiring=members.filter(m=>status(m)==='expiring').length;
-    const cardio=members.filter(m=>m.cardio).length;
-    $('totalCount').textContent=members.length; $('activeCount').textContent=active; $('expiringCount').textContent=expiring; $('cardioCount').textContent=cardio;
-    const q=$('search').value.trim().toLowerCase(), sf=$('statusFilter').value, cf=$('cardioFilter').value;
-    const filtered=members.filter(m=>{
-      const match=[m.name,m.phone,m.memberId,m.plan].join(' ').toLowerCase().includes(q);
-      return match && (sf==='all'||status(m)===sf) && (cf==='all'||(cf==='yes'?m.cardio:!m.cardio));
-    }).sort((a,b)=>a.name.localeCompare(b.name));
-    $('memberRows').innerHTML=filtered.map(m=>{
-      const s=status(m), initials=m.name.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
-      return `<tr><td><div class="member"><div class="avatar">${escapeHTML(initials)}</div><div><div class="member-name">${escapeHTML(m.name)}</div><div class="member-phone">${escapeHTML(m.memberId)} · ${escapeHTML(m.phone)}</div></div></div></td><td>${escapeHTML(m.plan)}</td><td>${fmt(m.startDate)}</td><td>${fmt(m.endDate)}</td><td><span class="pill ${m.cardio?'cardio':'no-cardio'}">${m.cardio?'✓ With cardio':'— No cardio'}</span></td><td><span class="pill ${s}">${statusLabel(s)}</span></td><td><div class="row-actions"><button class="icon-btn whatsapp" data-action="wa" data-id="${escapeHTML(m.id)}" title="WhatsApp">WhatsApp</button><button class="icon-btn renew" data-action="renew" data-id="${escapeHTML(m.id)}" title="Send renewal reminder">Renew</button><button class="icon-btn" data-action="edit" data-id="${escapeHTML(m.id)}" title="Edit">Edit</button><button class="icon-btn" data-action="delete" data-id="${escapeHTML(m.id)}" title="Delete">×</button></div></td></tr>`;
-    }).join('');
-    $('emptyState').style.display=filtered.length?'none':'block'; $('recordCount').textContent=`Showing ${filtered.length} of ${members.length} records`;
-  }
-  function toast(msg) { const el=$('toast'); el.textContent=msg; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2600); }
-  function openModal(m=null) {
-    editingId=m?.id||null; $('modalTitle').textContent=m?'Edit member':'Add new member';
-    $('memberForm').reset(); $('memberId').value=m?.memberId||''; $('name').value=m?.name||''; $('phone').value=m?.phone||''; $('plan').value=m?.plan||'1 Month'; $('startDate').value=m?.startDate||todayISO(); $('endDate').value=m?.endDate||''; $('fee').value=m?.fee??''; $('payment').value=m?.payment||'Paid'; $('cardio').checked=!!m?.cardio; $('gender').value=m?.gender||''; $('notes').value=m?.notes||'';
-    $('memberModal').classList.add('show'); $('name').focus();
-  }
-  function closeModal() { $('memberModal').classList.remove('show'); editingId=null; }
-  function whatsapp(m) {
-    const raw=String(m.phone||'').replace(/\D/g,'');
-    const number=raw.length===10?'91'+raw:raw;
-    if(number.length<10) { toast('Please edit and enter a valid WhatsApp number.'); return; }
-    const msg=`Hello ${m.name}, this is Fitness Empire. Your ${m.plan} membership is ${status(m)==='expired'?'expired':`valid until ${fmt(m.endDate)}`}. Cardio access: ${m.cardio?'Included':'Not included'}. Please contact us for any assistance. Thank you!`;
-    window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`,'_blank','noopener');
-  }
-  function renewalReminder(m) {
-    const raw=String(m.phone||'').replace(/\D/g,'');
-    const number=raw.length===10?'91'+raw:raw;
-    if(number.length<10) { toast('Please edit and enter a valid WhatsApp number.'); return; }
-    const msg=`Hello ${m.name}, greetings from Fitness Empire! Your ${m.plan} gym membership ${status(m)==='expired'?'has expired':`is due to expire on ${fmt(m.endDate)}`}. We would be happy to help you renew and continue your fitness journey. Please reply to confirm your renewal. Thank you!`;
-    window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`,'_blank','noopener');
-  }
-  $('memberForm').addEventListener('submit',e=>{
-    e.preventDefault();
-    const name=$('name').value.trim(), phone=$('phone').value.trim(), startDate=$('startDate').value, endDate=$('endDate').value;
-    if(!name||!phone||!startDate||!endDate) return;
-    if(parseDate(endDate)<parseDate(startDate)) { toast('Expiry date cannot be before start date.'); return; }
-    const old=members.find(x=>x.id===editingId);
-    const m={id:editingId||uid(),memberId:$('memberId').value.trim()||(old?.memberId||uid()),name,phone,plan:$('plan').value,startDate,endDate,fee:$('fee').value?Number($('fee').value):0,payment:$('payment').value,cardio:$('cardio').checked,gender:$('gender').value,notes:$('notes').value.trim(),createdAt:old?.createdAt||new Date().toISOString()};
-    if(editingId) members=members.map(x=>x.id===editingId?m:x); else members.push(m);
-    save(); render(); closeModal(); toast(editingId?'Member updated':'Member added successfully');
-  });
-  document.querySelectorAll('#addTop,#addPanel').forEach(b=>b.addEventListener('click',()=>openModal()));
-  ['closeModal','cancelModal'].forEach(id=>$(id).addEventListener('click',closeModal));
-  $('memberModal').addEventListener('click',e=>{if(e.target===$('memberModal'))closeModal();});
-  ['search','statusFilter','cardioFilter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
-  $('memberRows').addEventListener('click',e=>{
-    const b=e.target.closest('button[data-action]'); if(!b)return;
-    const m=members.find(x=>x.id===b.dataset.id); if(!m)return;
-    if(b.dataset.action==='edit')openModal(m);
-    if(b.dataset.action==='wa')whatsapp(m);
-    if(b.dataset.action==='renew')renewalReminder(m);
-    if(b.dataset.action==='delete'&&confirm(`Delete ${m.name} from the member database? This cannot be undone.`)){members=members.filter(x=>x.id!==m.id);save();render();toast('Member deleted');}
-  });
-  $('exportBtn').addEventListener('click',()=>{
-    if(!members.length){toast('No member records to export yet.');return;}
-    const cols=['id','memberId','name','phone','plan','startDate','endDate','cardio','fee','payment','gender','notes','createdAt'];
-    const csv=[cols.join(','),...members.map(m=>cols.map(k=>'"'+String(k==='cardio'?(m[k]?'Yes':'No'):(m[k]??'')).replace(/"/g,'""')+'"').join(','))].join('\r\n');
-    const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='fitness-empire-members.csv';a.click();URL.revokeObjectURL(url);toast('Backup downloaded');
-  });
-  $('importBtn').addEventListener('click',()=>$('importFile').click());
-  $('importFile').addEventListener('change',async e=>{
-    const file=e.target.files?.[0]; if(!file)return;
-    try {
-      const csv=(await file.text()).replace(/^\uFEFF/,'');
-      const rows=[]; let row=[],cell='',quoted=false;
-      for(let i=0;i<csv.length;i++) { const c=csv[i]; if(quoted&&c==='"'&&csv[i+1]==='"'){cell+='"';i++;} else if(c==='"'){quoted=!quoted;} else if(c===','&&!quoted){row.push(cell);cell='';} else if((c==='\n'||c==='\r')&&!quoted){row.push(cell);if(row.some(v=>v!==''))rows.push(row);row=[];cell='';if(c==='\r'&&csv[i+1]==='\n')i++;} else cell+=c; }
-      row.push(cell);if(row.some(v=>v!==''))rows.push(row);
-      if(rows.length<2)throw new Error('The CSV file has no member records.');
-      const headers=rows.shift().map(x=>x.trim());
-      const imported=rows.map(values=>{const o={};headers.forEach((h,i)=>o[h]=values[i]??'');return {id:o.id||uid(),memberId:o.memberId||uid(),name:o.name||'',phone:o.phone||'',plan:o.plan||'Custom',startDate:o.startDate||'',endDate:o.endDate||'',cardio:/^(yes|true|1)$/i.test(o.cardio||''),fee:Number(o.fee)||0,payment:o.payment||'Pending',gender:o.gender||'',notes:o.notes||'',createdAt:o.createdAt||new Date().toISOString()};}).filter(m=>m.name&&m.phone&&m.startDate&&m.endDate);
-      if(!imported.length)throw new Error('No valid member rows found.');
-      if(!confirm(`Import ${imported.length} members? This will replace the current database on this device.`))return;
-      members=imported;save();render();toast(`${imported.length} members imported`);
-    } catch(err) { toast(err.message||'Could not import this CSV file.'); }
-    finally { e.target.value=''; }
-  });
-  $('today').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-  load(); render();
-})();
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(err => console.warn('Offline support unavailable:', err));
-  });
+(()=>{
+const STORAGE_KEY='fitnessEmpireMembers_v1', TEMPLATE_KEY='fitnessEmpireWhatsAppTemplates_v1';
+const defaults={
+ welcome:'Hello {name}, welcome to Fitness Empire! Your {plan} membership starts on {startDate} and ends on {endDate}. We are excited to be part of your fitness journey. Thank you!',
+ expiring:'Hello {name}, greetings from Fitness Empire! Your {plan} membership will expire on {endDate}. Please renew on time to continue your fitness journey. Thank you!',
+ expired:'Hello {name}, your {plan} membership at Fitness Empire expired on {endDate}. We would love to welcome you back. Please contact us to renew. Thank you!'
+};
+let members=[],editingId=null,templates={...defaults};const $=id=>document.getElementById(id);
+const todayISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)};
+const date=s=>new Date(s+'T00:00:00'),diff=s=>Math.round((date(s)-date(todayISO()))/86400000);
+const fmt=s=>s?date(s).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
+const uid=()=> 'FE'+Math.random().toString(36).slice(2,7).toUpperCase();
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(s){$('toast').textContent=s;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2500)}
+function load(){try{members=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');if(!Array.isArray(members))members=[]}catch{members=[]}try{templates={...defaults,...JSON.parse(localStorage.getItem(TEMPLATE_KEY)||'{}')}}catch{templates={...defaults}}}
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(members))}
+function status(m){const n=diff(m.endDate);return n<0?'expired':n<=7?'expiring':'active'}
+function addMonthsClamped(iso,n){const d=date(iso),day=d.getDate(),target=new Date(d.getFullYear(),d.getMonth()+n,1);const last=new Date(target.getFullYear(),target.getMonth()+1,0).getDate();target.setDate(Math.min(day,last));return new Date(target.getTime()-target.getTimezoneOffset()*60000).toISOString().slice(0,10)}
+function updateExpiry(){const p=$('plan').value,s=$('startDate').value;if(!s||p==='Custom')return;const n={'1 Month':1,'3 Months':3,'6 Months':6,'12 Months':12}[p];if(n)$('endDate').value=addMonthsClamped(s,n)}
+function render(){
+ $('totalCount').textContent=members.length;$('activeCount').textContent=members.filter(m=>status(m)==='active').length;$('expiringCount').textContent=members.filter(m=>status(m)==='expiring').length;$('cardioCount').textContent=members.filter(m=>m.cardio).length;
+ const q=$('search').value.trim().toLowerCase(),sf=$('statusFilter').value,cf=$('cardioFilter').value;
+ const list=members.filter(m=>[m.name,m.phone,m.memberId,m.plan].join(' ').toLowerCase().includes(q)&&(sf==='all'||status(m)===sf)&&(cf==='all'||(cf==='yes'?m.cardio:!m.cardio))).sort((a,b)=>a.name.localeCompare(b.name));
+ $('memberRows').innerHTML=list.map(m=>{const st=status(m);return `<tr><td><strong>${esc(m.name)}</strong><div class="muted">${esc(m.memberId)} · ${esc(m.phone)}</div></td><td>${esc(m.plan)}</td><td>${fmt(m.startDate)}</td><td>${fmt(m.endDate)}</td><td>${m.cardio?'Yes':'No'}</td><td><span class="pill ${st}">${st==='active'?'Active':st==='expiring'?'Expiring soon':'Expired'}</span></td><td><div class="actions"><button class="mini wa" data-action="welcome" data-id="${esc(m.id)}">Welcome</button><button class="mini wa" data-action="expiring" data-id="${esc(m.id)}">Expiring</button><button class="mini wa" data-action="expired" data-id="${esc(m.id)}">Expired</button><button class="mini" data-action="renew" data-id="${esc(m.id)}">Renew</button><button class="mini" data-action="edit" data-id="${esc(m.id)}">Edit</button><button class="mini" data-action="delete" data-id="${esc(m.id)}">×</button></div></td></tr>`}).join('');
+ $('emptyState').style.display=list.length?'none':'block';$('recordCount').textContent=`Showing ${list.length} of ${members.length} records`;
 }
+function openMember(m=null){editingId=m?.id||null;$('modalTitle').textContent=m?'Edit member':'Add new member';$('memberForm').reset();$('memberId').value=m?.memberId||'';$('name').value=m?.name||'';$('phone').value=m?.phone||'';$('plan').value=m?.plan||'1 Month';$('startDate').value=m?.startDate||todayISO();$('endDate').value=m?.endDate||'';$('fee').value=m?.fee??'';$('payment').value=m?.payment||'Paid';$('cardio').checked=!!m?.cardio;$('gender').value=m?.gender||'';$('notes').value=m?.notes||'';if(!m||$('plan').value!=='Custom')updateExpiry();$('memberModal').classList.add('show')}
+function closeMember(){$('memberModal').classList.remove('show');editingId=null}
+function sendMessage(m,type){const raw=String(m.phone||'').replace(/\D/g,''),num=raw.length===10?'91'+raw:raw;if(num.length<10){toast('Please enter a valid WhatsApp number.');return}
+ let msg=templates[type]||'';if(type==='renew')msg=`Hello ${m.name}, greetings from Fitness Empire! Your ${m.plan} membership ${status(m)==='expired'?'has expired':`is due to expire on ${fmt(m.endDate)}`}. We would be happy to help you renew. Please reply to confirm. Thank you!`;
+ msg=msg.replace(/\{(name|plan|startDate|endDate)\}/g,(_,k)=>({name:m.name,plan:m.plan,startDate:fmt(m.startDate),endDate:fmt(m.endDate)}[k]||''));window.open('https://wa.me/'+num+'?text='+encodeURIComponent(msg),'_blank','noopener')}
+$('memberForm').addEventListener('submit',e=>{e.preventDefault();const name=$('name').value.trim(),phone=$('phone').value.trim(),startDate=$('startDate').value,endDate=$('endDate').value;if(!name||!phone||!startDate||!endDate)return;if(date(endDate)<date(startDate)){toast('End date cannot be before start date.');return}
+ const old=members.find(x=>x.id===editingId),m={id:editingId||uid(),memberId:$('memberId').value.trim()||old?.memberId||uid(),name,phone,plan:$('plan').value,startDate,endDate,fee:Number($('fee').value)||0,payment:$('payment').value,cardio:$('cardio').checked,gender:$('gender').value,notes:$('notes').value.trim(),createdAt:old?.createdAt||new Date().toISOString()};
+ if(editingId)members=members.map(x=>x.id===editingId?m:x);else members.push(m);save();render();closeMember();toast('Member saved')});
+$('plan').addEventListener('change',updateExpiry);$('startDate').addEventListener('change',updateExpiry);
+['addTop','addPanel'].forEach(id=>$(id).addEventListener('click',()=>openMember()));
+['closeModal','cancelModal'].forEach(id=>$(id).addEventListener('click',closeMember));
+$('memberModal').addEventListener('click',e=>{if(e.target===$('memberModal'))closeMember()});
+['search','statusFilter','cardioFilter'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));
+$('memberRows').addEventListener('click',e=>{const b=e.target.closest('button[data-action]');if(!b)return;const m=members.find(x=>x.id===b.dataset.id);if(!m)return;const a=b.dataset.action;if(a==='edit')openMember(m);else if(a==='delete'&&confirm(`Delete ${m.name}? This cannot be undone.`)){members=members.filter(x=>x.id!==m.id);save();render()}else if(['welcome','expiring','expired','renew'].includes(a))sendMessage(m,a)});
+function showTemplates(){$('welcomeTemplate').value=templates.welcome;$('expiringTemplate').value=templates.expiring;$('expiredTemplate').value=templates.expired;$('templatesModal').classList.add('show')}
+$('templatesBtn').addEventListener('click',showTemplates);$('closeTemplates').addEventListener('click',()=>$('templatesModal').classList.remove('show'));
+$('saveTemplates').addEventListener('click',()=>{templates={welcome:$('welcomeTemplate').value,expiring:$('expiringTemplate').value,expired:$('expiredTemplate').value};localStorage.setItem(TEMPLATE_KEY,JSON.stringify(templates));$('templatesModal').classList.remove('show');toast('WhatsApp templates saved')});
+$('resetTemplates').addEventListener('click',()=>{templates={...defaults};showTemplates();toast('Default templates restored')});
+$('exportBtn').addEventListener('click',()=>{if(!members.length){toast('No member records to export');return}const cols=['id','memberId','name','phone','plan','startDate','endDate','cardio','fee','payment','gender','notes','createdAt'];const csv=[cols.join(','),...members.map(m=>cols.map(k=>'"'+String(k==='cardio'?(m[k]?'Yes':'No'):(m[k]??'')).replace(/"/g,'""')+'"').join(','))].join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='fitness-empire-members.csv';a.click();URL.revokeObjectURL(url);toast('Backup downloaded')});
+$('importBtn').addEventListener('click',()=>$('importFile').click());
+$('importFile').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{const csv=(await f.text()).replace(/^\uFEFF/,'');const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<csv.length;i++){const c=csv[i];if(quoted&&c==='"'&&csv[i+1]==='"'){cell+='"';i++}else if(c==='"')quoted=!quoted;else if(c===','&&!quoted){row.push(cell);cell=''}else if((c==='\n'||c==='\r')&&!quoted){row.push(cell);if(row.some(x=>x!==''))rows.push(row);row=[];cell='';if(c==='\r'&&csv[i+1]==='\n')i++}else cell+=c}row.push(cell);if(row.some(x=>x!==''))rows.push(row);if(rows.length<2)throw Error('CSV has no member records');const heads=rows.shift().map(x=>x.trim());const imported=rows.map(vals=>{const o={};heads.forEach((h,i)=>o[h]=vals[i]??'');return{id:o.id||uid(),memberId:o.memberId||uid(),name:o.name||'',phone:o.phone||'',plan:o.plan||'Custom',startDate:o.startDate||'',endDate:o.endDate||'',cardio:/^(yes|true|1)$/i.test(o.cardio||''),fee:Number(o.fee)||0,payment:o.payment||'Pending',gender:o.gender||'',notes:o.notes||'',createdAt:o.createdAt||new Date().toISOString()}}).filter(m=>m.name&&m.phone&&m.startDate&&m.endDate);if(!imported.length)throw Error('No valid member rows found');if(confirm(`Import ${imported.length} members? This replaces the current list on this device.`)){members=imported;save();render();toast('Members imported')}}catch(err){toast(err.message||'Import failed')}finally{e.target.value=''}});
+$('today').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+load();render();
+})();
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(console.warn));
 </script>
-</body>
-</html>
+</body></html>
